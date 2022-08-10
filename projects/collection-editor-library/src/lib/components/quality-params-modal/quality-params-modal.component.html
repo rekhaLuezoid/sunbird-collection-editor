@@ -1,10 +1,13 @@
-<sui-modal [mustScroll]="true" [isClosable]="isClosable" [transitionDuration]="0" [size]="'normal'"
-  class="sb-modal bx-none overflow-modal publish-checklist" appBodyScroll (dismissed)="isClosable = false" #modal>
+<sui-modal [mustScroll]="true" [transitionDuration]="0" [size]="'normal'"
+  class="sb-modal bx-none overflow-modal publish-checklist" appBodyScroll #modal>
   <div class="sb-modal-header">
       
   </div>
   <div class="sb-modal-content">
     Question: abc xyz?
+    <sb-dynamic-form [config]="">
+      
+    </sb-dynamic-form>
   </div>
   <div class="sb-modal-actions">
     <button class="sb-btn sb-btn-normal">
@@ -15,3 +18,4 @@
     </button>
   </div>
 </sui-modal>
+

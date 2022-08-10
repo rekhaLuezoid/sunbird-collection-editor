@@ -93,6 +93,9 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
   openPublishCheckListPopup(action) {
     this.actionType = action;
+    // if questionSet true 
+    
+    //else
     this.showPublishCollectionPopup = true;
   }
   publishEmitter(event) {
