@@ -5,17 +5,24 @@
   </div>
   <div class="sb-modal-content">
     Question: abc xyz?
-    <sb-dynamic-form [config]="">
-      
-    </sb-dynamic-form>
+   <h1> Score each parameter out of 5</h1>
+   <div class="sb-form-fields">
+    <div class="form-container upload-form">
+    <sb-dynamic-form [config]="qualityFormConfig" (statusChanges)="onStatusChanges($event)"
+    (valueChanges)="valueChanges($event)"></sb-dynamic-form>
+    </div>
+    </div> 
+    <label>Total Score:</label>
+    <p><small>Note: If the score is less than or equal to 15 please re-evaluate the question and send back for corrections.</small></p>
   </div>
   <div class="sb-modal-actions">
-    <button class="sb-btn sb-btn-normal">
+    <button class="sb-btn sb-btn-normal sb-btn-outline-primary">
         Submit for approval
     </button>
     <button class="sb-btn sb-btn-normal sb-btn-outline-primary">
         Request Changes
     </button>
+    
   </div>
 </sui-modal>
 

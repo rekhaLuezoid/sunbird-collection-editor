@@ -27,6 +27,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
   public showReviewModal: boolean;
   public showRequestChangesPopup: boolean;
   public showPublishCollectionPopup: boolean;
+  public showQualityParameterPopup: boolean;
   public rejectComment: string;
   public actionType: string;
   public objectType: string;
@@ -93,9 +94,9 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
   openPublishCheckListPopup(action) {
     this.actionType = action;
-    // if questionSet true 
-    
-    //else
+    if (true) // Need to bind with Configuration key 
+    this.showQualityParameterPopup = true
+    else
     this.showPublishCollectionPopup = true;
   }
   publishEmitter(event) {
