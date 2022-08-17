@@ -23,6 +23,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
   @Output() bulkUploadEmitter = new EventEmitter<any>();
   @ViewChild('FormControl') FormControl: NgForm;
   @ViewChild('modal') public modal;
+  @Output() qualityParamEmitter = new EventEmitter<any>();
   public visibility: any;
   public showReviewModal: boolean;
   public showRequestChangesPopup: boolean;
@@ -52,7 +53,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
       }
     });
     this.objectType = _.get(this.editorService, 'editorConfig.config.objectType');
-    this.qualityFormConfig = this.editorService.qualityFormConfig();
+    this.qualityFormConfig = this.editorService.qualityFormConfig;
     console.log("qualityFormConfig=>", this.qualityFormConfig)
     await this.handleActionButtons();
     this.getSourcingData();
@@ -119,5 +120,10 @@ export class HeaderComponent implements OnDestroy, OnInit {
     }
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  qualityParamValuesChanged(event: any){
+    this.showQualityParameterPopup = false;
+    this.qualityParamEmitter.emit(event);
   }
 }

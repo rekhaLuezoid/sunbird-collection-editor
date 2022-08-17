@@ -521,14 +521,13 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((res) => {
         const requestObj = {
           question: {
-            prevStatus: _.get(res.result, `question.status`),
-            status: 'Draft',
-            requestChanges: event.comment
+            meta: event
           }
         };
         this.questionService.updateQuestion(this.questionId, requestObj).subscribe(res => {
             this.toasterService.success(_.get(this.configService, 'labelConfig.messages.success.040'));
             this.redirectToChapterList();
+            this.sendQuestionForPublish(event);
         });
       }, (err: ServerResponse) => {
         const errInfo = {

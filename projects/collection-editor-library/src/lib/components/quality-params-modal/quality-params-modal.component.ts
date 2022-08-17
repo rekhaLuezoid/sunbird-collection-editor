@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { config } from './quality-params.data';
 import * as _ from 'lodash-es';
 
@@ -9,14 +9,20 @@ import * as _ from 'lodash-es';
 })
 export class QualityParamsModalComponent implements OnInit {
   @Input() qualityFormConfig:any 
+  @Output() qualityParamChanged = new EventEmitter<any>()
+  formData: any;
+  isApprovalBtnEnable:boolean;
   constructor() { }
 
   ngOnInit(): void {
 }
   onStatusChanges(event) {
-   
+    this.isApprovalBtnEnable = event?.isValid;
   }
   valueChanges(event) {
-    console.log(event)
+    this.formData = event;
+  }
+  submitApproval() {
+    this.qualityParamChanged.emit(this.formData);
   }
 }

@@ -4,7 +4,6 @@
       
   </div>
   <div class="sb-modal-content">
-    Question: abc xyz?
    <h1> Score each parameter out of 5</h1>
    <div class="sb-form-fields">
     <div class="form-container upload-form">
@@ -13,10 +12,10 @@
     </div>
     </div> 
     <label>Total Score:</label>
-    <p><small>Note: If the score is less than or equal to 15 please re-evaluate the question and send back for corrections.</small></p>
+    <p><small><em> If the score is less than or equal to 15 please re-evaluate the question and send back for corrections.</em></small></p>
   </div>
   <div class="sb-modal-actions">
-    <button class="sb-btn sb-btn-normal sb-btn-outline-primary">
+    <button class="sb-btn sb-btn-normal sb-btn-outline-primary" [disabled]="!isApprovalBtnEnable" (click)="submitApproval()">
         Submit for approval
     </button>
     <button class="sb-btn sb-btn-normal sb-btn-outline-primary">
