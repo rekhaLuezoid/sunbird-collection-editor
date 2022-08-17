@@ -40,6 +40,7 @@ export class EditorService {
   selectedPrimaryCategory: any;
   leafParentIdentifier: any;
   questionIds = [];
+  private _qualityFormConfig: any;
   constructor(public treeService: TreeService, private toasterService: ToasterService,
               public configService: ConfigService, private telemetryService: EditorTelemetryService,
               private publicDataService: PublicDataService, private dataService: DataService, public httpClient: HttpClient) {
@@ -52,6 +53,7 @@ export class EditorService {
     }
     this._editorMode = _.get(this._editorConfig, 'config.mode').toLowerCase();
     this.setIsReviewerEditEnable(_.get(this._editorConfig, 'context.enableReviewEdit', false));
+    this.setQualityFormConfig(_.get(this._editorConfig, 'config.qualityFormConfig', null))
   }
 
   set selectedChildren(value: SelectedChildren) {
@@ -739,4 +741,11 @@ getDependentNodes(identifier) {
     return this.publicDataService.get(req);
   }
 
+  get qualityFormConfig(){
+  return this._qualityFormConfig;
+  }
+
+  private setQualityFormConfig(value: any){
+    return this._qualityFormConfig = value;
+  }
 }

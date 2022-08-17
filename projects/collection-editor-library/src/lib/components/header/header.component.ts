@@ -37,6 +37,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
   public correctionComments: string;
   public unsubscribe$ = new Subject<void>();
   public bulkUploadStatus = false;
+  public qualityFormConfig: any;
 
   constructor(private editorService: EditorService,
     public telemetryService: EditorTelemetryService,
@@ -51,6 +52,8 @@ export class HeaderComponent implements OnDestroy, OnInit {
       }
     });
     this.objectType = _.get(this.editorService, 'editorConfig.config.objectType');
+    this.qualityFormConfig = this.editorService.qualityFormConfig();
+    console.log("qualityFormConfig=>", this.qualityFormConfig)
     await this.handleActionButtons();
     this.getSourcingData();
   }
@@ -94,7 +97,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
   openPublishCheckListPopup(action) {
     this.actionType = action;
-    if (true) // Need to bind with Configuration key 
+    if (this.qualityFormConfig!==null)
     this.showQualityParameterPopup = true
     else
     this.showPublishCollectionPopup = true;

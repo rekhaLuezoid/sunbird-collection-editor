@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { config } from './quality-params.data';
 import * as _ from 'lodash-es';
 
@@ -8,17 +8,15 @@ import * as _ from 'lodash-es';
   styleUrls: ['./quality-params-modal.component.css']
 })
 export class QualityParamsModalComponent implements OnInit {
-  qualityFormConfig:any 
+  @Input() qualityFormConfig:any 
   constructor() { }
 
   ngOnInit(): void {
-    this.qualityFormConfig = _.get(config, 'qualityConfig')
-  }
+}
   onStatusChanges(event) {
    
   }
   valueChanges(event) {
     console.log(event)
   }
-
 }
