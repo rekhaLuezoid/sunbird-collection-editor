@@ -111,6 +111,8 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
   maxScore = 1;
   public questionFormConfig: any;
   treeNodeData:any;
+  showQualityParameterPopup: boolean =false;
+  public qualityFormConfig: any;
   constructor(
     private questionService: QuestionService, public editorService: EditorService, public telemetryService: EditorTelemetryService,
     public playerService: PlayerService, private toasterService: ToasterService, private treeService: TreeService,
@@ -147,6 +149,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initialLeafFormConfig = _.cloneDeep(this.leafFormConfig);
     this.initialize();
     this.framework = _.get(this.editorService.editorConfig, 'context.framework');
+    this.qualityFormConfig = this.editorService.qualityFormConfig;
   }
 
   fetchFrameWorkDetails() {
@@ -363,6 +366,8 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
       case 'showReviewcomments':
         this.showReviewModal = !this.showReviewModal;
         break;
+      case 'saveQualityParameters' :
+        this.showQualityParameterPopup = true;
       default:
         break;
     }
@@ -516,27 +521,28 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     }
 
-  sendBackQuestion(event) {
-    this.questionService.readQuestion(this.questionId, 'status')
-      .subscribe((res) => {
-        const requestObj = {
-          question: {
-            meta: event
-          }
-        };
-        this.questionService.updateQuestion(this.questionId, requestObj).subscribe(res => {
-            this.toasterService.success(_.get(this.configService, 'labelConfig.messages.success.040'));
-            this.redirectToChapterList();
-            this.sendQuestionForPublish(event);
+    sendBackQuestion(event) {
+      this.questionService.readQuestion(this.questionId, 'status')
+        .subscribe((res) => {
+          const requestObj = {
+            question: {
+              prevStatus: _.get(res.result, `question.status`),
+              status: 'Draft',
+              requestChanges: event.comment
+            }
+          };
+          this.questionService.updateQuestion(this.questionId, requestObj).subscribe(res => {
+              this.toasterService.success(_.get(this.configService, 'labelConfig.messages.success.040'));
+              this.redirectToChapterList();
+          });
+        }, (err: ServerResponse) => {
+          const errInfo = {
+            errorMsg: 'Cannot update question status. Please try again...',
+          };
+          this.editorService.apiErrorHandling(err, errInfo);
         });
-      }, (err: ServerResponse) => {
-        const errInfo = {
-          errorMsg: 'Cannot update question status. Please try again...',
-        };
-        this.editorService.apiErrorHandling(err, errInfo);
-      });
-  }
-
+    }
+    
   validateQuestionData() {
 
     if ([undefined, ''].includes(this.editorState.question)) {
@@ -1443,5 +1449,18 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getBranchingLogic(data?.children);
       }
     });
+  }
+
+  saveQualityParameters(qualityParameters) {
+    const requestObj = {
+      question: {
+        reviewerQualityChecks: qualityParameters
+      }
+    };
+    this.questionService.updateQuestion(this.questionId, requestObj).subscribe(res => {
+        this.toasterService.success(_.get(this.configService, 'labelConfig.messages.success.040'));
+        this.sendQuestionForPublish({});
+    }, err => {this.sendQuestionForPublish({});});
+
   }
 }

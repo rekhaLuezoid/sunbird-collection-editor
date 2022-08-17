@@ -54,7 +54,6 @@ export class HeaderComponent implements OnDestroy, OnInit {
     });
     this.objectType = _.get(this.editorService, 'editorConfig.config.objectType');
     this.qualityFormConfig = this.editorService.qualityFormConfig;
-    console.log("qualityFormConfig=>", this.qualityFormConfig)
     await this.handleActionButtons();
     this.getSourcingData();
   }
@@ -98,10 +97,11 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
   openPublishCheckListPopup(action) {
     this.actionType = action;
-    if (this.qualityFormConfig!==null)
-    this.showQualityParameterPopup = true
-    else
-    this.showPublishCollectionPopup = true;
+    if (this.qualityFormConfig!==null) {
+      this.toolbarEmitter.emit({button: 'saveQualityParameters'});
+    } else {
+      this.showPublishCollectionPopup = true;
+    }
   }
   publishEmitter(event) {
     this.showPublishCollectionPopup = false;
@@ -120,10 +120,5 @@ export class HeaderComponent implements OnDestroy, OnInit {
     }
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  qualityParamValuesChanged(event: any){
-    this.showQualityParameterPopup = false;
-    this.qualityParamEmitter.emit(event);
   }
 }
