@@ -113,6 +113,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
   treeNodeData:any;
   showQualityParameterPopup: boolean =false;
   public qualityFormConfig: any;
+  requestChangesPopupAction: string;
   constructor(
     private questionService: QuestionService, public editorService: EditorService, public telemetryService: EditorTelemetryService,
     public playerService: PlayerService, private toasterService: ToasterService, private treeService: TreeService,
@@ -1462,5 +1463,8 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sendQuestionForPublish({});
     }, err => {this.sendQuestionForPublish({});});
 
+  }
+  openRequestChangesPopup() {
+    this.requestChangesPopupAction = 'sendForCorrectionsQuestion';
   }
 }

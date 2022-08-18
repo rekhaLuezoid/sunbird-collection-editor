@@ -19,6 +19,10 @@ export class HeaderComponent implements OnDestroy, OnInit {
   @Input() buttonLoaders: any;
   @Input() showComment: any;
   @Input() publishchecklist: any;
+  @Input() set requestChange(action:string){
+    if(action)
+    this.openRequestChangePopup(action)
+  }
   @Output() toolbarEmitter = new EventEmitter<any>();
   @Output() bulkUploadEmitter = new EventEmitter<any>();
   @ViewChild('FormControl') FormControl: NgForm;
@@ -26,9 +30,9 @@ export class HeaderComponent implements OnDestroy, OnInit {
   @Output() qualityParamEmitter = new EventEmitter<any>();
   public visibility: any;
   public showReviewModal: boolean;
-  public showRequestChangesPopup: boolean;
   public showPublishCollectionPopup: boolean;
   public showQualityParameterPopup: boolean;
+  public showRequestChangesPopup: boolean;
   public rejectComment: string;
   public actionType: string;
   public objectType: string;
@@ -97,10 +101,10 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
   openPublishCheckListPopup(action) {
     this.actionType = action;
-    if (this.qualityFormConfig!==null) {
-      this.toolbarEmitter.emit({button: 'saveQualityParameters'});
-    } else {
+    if (this.editorService.isReviewerQualityCheckEnabled) {
       this.showPublishCollectionPopup = true;
+    } else {
+      this.toolbarEmitter.emit({button: 'saveQualityParameters'});
     }
   }
   publishEmitter(event) {

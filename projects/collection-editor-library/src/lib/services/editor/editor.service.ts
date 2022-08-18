@@ -41,6 +41,7 @@ export class EditorService {
   leafParentIdentifier: any;
   questionIds = [];
   private _qualityFormConfig: any;
+  private _isReviewerQualityCheckEnabled: boolean;
   constructor(public treeService: TreeService, private toasterService: ToasterService,
               public configService: ConfigService, private telemetryService: EditorTelemetryService,
               private publicDataService: PublicDataService, private dataService: DataService, public httpClient: HttpClient) {
@@ -54,6 +55,7 @@ export class EditorService {
     this._editorMode = _.get(this._editorConfig, 'config.mode').toLowerCase();
     this.setIsReviewerEditEnable(_.get(this._editorConfig, 'context.enableReviewEdit', false));
     this.setQualityFormConfig(_.get(this._editorConfig, 'config.qualityFormConfig', null))
+    this.setIsReviewerQualityCheckEnabled(_.get(this._editorConfig, 'config.isReviewerQualityCheckEnabled', false))
   }
 
   set selectedChildren(value: SelectedChildren) {
@@ -742,10 +744,18 @@ getDependentNodes(identifier) {
   }
 
   get qualityFormConfig(){
-  return this._qualityFormConfig;
+    return this._qualityFormConfig;
   }
 
   private setQualityFormConfig(value: any){
     return this._qualityFormConfig = value;
   }
+
+  get isReviewerQualityCheckEnabled(){
+    return this._isReviewerQualityCheckEnabled;
+    }
+  
+    private setIsReviewerQualityCheckEnabled(value: boolean){
+      return this._isReviewerQualityCheckEnabled = value;
+    }
 }

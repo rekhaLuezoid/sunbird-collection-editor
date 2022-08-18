@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { config } from './quality-params.data';
 import * as _ from 'lodash-es';
 
 @Component({
@@ -8,10 +7,13 @@ import * as _ from 'lodash-es';
   styleUrls: ['./quality-params-modal.component.css']
 })
 export class QualityParamsModalComponent implements OnInit {
-  @Input() qualityFormConfig:any 
-  @Output() qualityParamChanged = new EventEmitter<any>()
+  @Input() qualityFormConfig:any;
+  @Input() showQualityParameterPopup: boolean;
+  @Output() qualityParamChanged = new EventEmitter<any>();
+  @Output() requestChangesEmitter = new EventEmitter<void>();
   formData: any;
   isApprovalBtnEnable:boolean;
+  totalScoreValue: number= 0;
   constructor() { }
 
   ngOnInit(): void {
@@ -21,8 +23,18 @@ export class QualityParamsModalComponent implements OnInit {
   }
   valueChanges(event) {
     this.formData = event;
+    console.log(event);
+    this.totalScoreValue = 
+    // _.sum(Object.values(this.formData));
+    <number>Object.values(this.formData).filter(el=>el!=="")
+    .reduce((acc:string,curr:string)=> { return parseInt(acc)+parseInt(curr) });
   }
-  submitApproval() {
+  submitApproval(modal) {
     this.qualityParamChanged.emit(this.formData);
+    modal.deny();
+  }
+  requestChanges(modal){
+    this.requestChangesEmitter.emit();
+    modal.deny();
   }
 }
